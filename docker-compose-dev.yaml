@@ -1,0 +1,132 @@
+version: "3.2"
+
+networks:
+  testnet:
+    external:
+      name: testnet
+
+services:
+  central_server:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      # placement:
+      #   constraints:
+      #     - node.hostname == your-hostname-2-here
+    image: presto412/storev1
+    hostname: nyc.central.com
+    command: ./node_modules/.bin/nodemon
+    volumes:
+      - "/tmp/uploads:/tmp/uploads"
+      - ".:/usr/src/app/"
+    environment:
+      - SELF_HOSTNAME=nyc.central.com
+    ports:
+      - "3000:3000"
+    networks:
+      testnet:
+        aliases:
+          - nyc.central.com
+
+  storage_toronto:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      # placement:
+      #   constraints:
+      #     - node.hostname == harshit-Lenovo-G50-80
+    image: presto412/storev1
+    hostname: toronto.storage.com
+    command: ./node_modules/.bin/nodemon
+    ports:
+      - "3001:3000"
+    environment:
+      - SELF_HOSTNAME=toronto.storage.com
+    volumes:
+      - "/tmp/uploads:/tmp/uploads"
+      - ".:/usr/src/app/"
+    networks:
+      testnet:
+        aliases:
+          - toronto.storage.com
+
+  storage_singapore:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.hostname ==pankhil-inspirone-77
+    image: presto412/storev1
+    hostname: singapore.storage.com
+    command: ./node_modules/.bin/nodemon
+    ports:
+      - "3002:3000"
+    environment:
+      - SELF_HOSTNAME=singapore.storage.com
+    volumes:
+      - "/tmp/uploads:/tmp/uploads"
+      - ".:/usr/src/app/"
+    networks:
+      testnet:
+        aliases:
+          - singapore.storage.com
+
+  storage_amsterdam:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      # placement:
+      #   constraints:
+      #     - node.hostname == your-hostname-2-here
+    image: presto412/storev1
+    hostname: amsterdam.storage.com
+    command: ./node_modules/.bin/nodemon
+    volumes:
+      - "/tmp/uploads:/tmp/uploads"
+      - ".:/usr/src/app/"
+    ports:
+      - "3003:3000"
+    environment:
+      - SELF_HOSTNAME=amsterdam.storage.com
+    networks:
+      testnet:
+        aliases:
+          - amsterdam.storage.com
+
+  storage_bangalore:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.hostname ==pankhil-inspirone-77
+    image: presto412/storev1
+    command: ./node_modules/.bin/nodemon
+    hostname: bangalore.storage.com
+    environment:
+      - SELF_HOSTNAME=bangalore.storage.com
+    ports:
+      - "3004:3000"
+    volumes:
+      - "/tmp/uploads:/tmp/uploads"
+      - ".:/usr/src/app/"
+    networks:
+      testnet:
+        aliases:
+          - bangalore.storage.com
