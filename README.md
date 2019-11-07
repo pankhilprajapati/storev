@@ -1,4 +1,4 @@
-# StoreV
+# storev
 
 A Storage Virtualization implementation, that considers backups and de-duplication.
 
